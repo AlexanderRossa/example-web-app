@@ -27,9 +27,9 @@ app.include_router(products.router, tags=["Products"], prefix="/products")
 
 @app.get("/")
 def root():
-    return {"message": ""}
+    return {"message": "This is the root path. Check out /docs for API documentation."}
 
 
 @app.get("/api/health", tags=["API"])
 def check_health():
-    return {"message": ""}
+    return {"message": "Good news, the API is up and running."}
