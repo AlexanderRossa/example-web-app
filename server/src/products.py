@@ -1,6 +1,6 @@
 from typing import List
 
-from fastapi import APIRouter, Depends, HTTPException, status
+from fastapi import APIRouter, Depends, HTTPException, Response, status
 from sqlalchemy.orm import Session
 
 from . import crud, schemas
@@ -40,4 +40,9 @@ def get_product_by_id(product_id: int, db: Session = Depends(get_db)):
 
 @router.delete("/{product_id}")
 def delete_product(product_id: int, db: Session = Depends(get_db)):
-    pass
+    if not crud.delete_product(db=db, product_id=product_id):
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail=f"Product with ID '{product_id}' not found!"
+        )
+    return Response(status_code=status.HTTP_200_OK)

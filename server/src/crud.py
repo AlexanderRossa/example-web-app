@@ -22,3 +22,16 @@ def create_product(db: Session, product: schemas.ProductCreate):
     # refresh to update with the generated ID
     db.refresh(new_product)
     return new_product
+
+
+def delete_product(db: Session, product_id: int):
+    # extracting query here like this to use it for deletion if product exists
+    product_query = db.query(models.Product).filter(
+        models.Product.id == product_id
+    )
+    if product_query.first():
+        product_query.delete(synchronize_session=False)
+        db.commit()
+        return True
+    # let the caller know deletion was not possible
+    return False
