@@ -9,6 +9,7 @@ const theme = createTheme({
   palette: {
     primary: {
       main: "#e87629",
+      contrastText: "#fff",
     },
     secondary: {
       main: "#edf2ff",
@@ -18,7 +19,7 @@ const theme = createTheme({
 
 export default function App() {
   return (
-    <ThemeProvider>
+    <ThemeProvider theme={theme}>
       <CssBaseline />
       <AppLayout />
     </ThemeProvider>

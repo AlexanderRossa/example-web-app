@@ -1,4 +1,4 @@
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 
 import {
   httpGetProducts,
@@ -10,14 +10,23 @@ function useProducts() {
   // initialise state management for products
   const [products, saveProducts] = useState([]);
 
+  // retrieve products from backend and save to state
+  const getProducts = useCallback(async () => {
+    const fetchedProducts = await httpGetProducts();
+    saveProducts(fetchedProducts);
+  }, []);
+
+  // call the getProducts method after render
+  useEffect(() => {
+    getProducts();
+  }, [getProducts]);
+
   // TODO: implement the logic for interacting with the HTTP requests here
-  const getProducts = useCallback(async () => {}, []);
   const createProduct = useCallback(async () => {}, []);
   const deleteProduct = useCallback(async () => {}, []);
 
   return {
     products,
-    getProducts,
     createProduct,
     deleteProduct,
   };
