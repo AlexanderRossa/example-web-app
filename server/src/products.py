@@ -18,7 +18,13 @@ def get_all_products(skip: int = 0, limit: int = 100, db: Session = Depends(get_
 
 @router.post("", response_model=schemas.Product, status_code=status.HTTP_201_CREATED)
 def create_product(product: schemas.ProductCreate, db: Session = Depends(get_db)):
-    pass
+    # try and see if product already exists in the database
+    if crud.get_product_by_name(db, product_name=product.name):
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail=f"Product '{product.name}' already exists!"
+        )
+    return crud.create_product(db=db, product=product)
 
 
 @router.get("/{product_id}", response_model=schemas.Product)

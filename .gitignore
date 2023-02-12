@@ -1,3 +1,6 @@
+# Ignore created DB files
+*.db
+
 # Ignore my custom venv
 webapp
 

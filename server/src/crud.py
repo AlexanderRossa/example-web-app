@@ -13,3 +13,12 @@ def get_product_by_name(db: Session, product_name: str):
 
 def get_all_products(db: Session, skip: int = 0, limit: int = 100):
     return db.query(models.Product).offset(skip).limit(limit).all()
+
+
+def create_product(db: Session, product: schemas.ProductCreate):
+    new_product = models.Product(**product.dict())
+    db.add(new_product)
+    db.commit()
+    # refresh to update with the generated ID
+    db.refresh(new_product)
+    return new_product
